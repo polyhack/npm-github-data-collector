@@ -1,0 +1,16 @@
+{
+  "name": "npm-github-data-collector",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": "",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "npm": "~1.2.18",
+    "async": "~0.2.7",
+    "request": "~2.20.0",
+    "function-rate-limit": "0.0.1"
+  },
+  "private": true
+}
