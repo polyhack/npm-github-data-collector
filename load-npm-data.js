@@ -8,32 +8,32 @@ const GITHUB_REPO_REGEX = /github.com[:\/]([\.\-\w]+)\/([^$\/\.]+)/
 function matchGitHubRepo (npmPackage, repo) {
   var match = repo
     && typeof repo.url == 'string'
-    && repo.url.match(GITHUB_REPO_REGEX);
+    && repo.url.match(GITHUB_REPO_REGEX)
 
   return match && {
       githubUser : match[1]
     , githubRepo : match[2]
     , npmPackage : npmPackage
-  };
+  }
 }
 
-function getPackageData(repositories, allPackages, packageData, callback){
+function getPackageData (repositories, allPackages, packageData, callback) {
   request(NPM_SINGLE_PACKAGE_URL.replace('{packageId}', packageData.id), function (err, response, data) {
     if (err) {
       // log and continue usually just a timeout, possibly needs retry logic
-      console.log('error getting data for package: ' + packageData.id, err.message);
-      return callback();
+      console.log('error getting data for package: ' + packageData.id, err.message)
+      return callback()
     }
 
     // Bad maintainers property there are MANY just skip for much speed increase
-    if(!data.maintainers || !Array.isArray(data.maintainers)){
-      return callback();
+    if (!data.maintainers || !Array.isArray(data.maintainers)) {
+      return callback()
     }
 
     var repo = matchGitHubRepo(data.name, data.repository);
 
-    if (repo){
-      repositories.push(repo);
+    if (repo) {
+      repositories.push(repo)
     }
 
     allPackages.push({
@@ -42,15 +42,15 @@ function getPackageData(repositories, allPackages, packageData, callback){
       , githubUser  : repo ? repo.githubUser : null
       , githubRepo  : repo ? repo.githubRepo : null
       , description : data.description
-    });
+    })
 
-    callback();
-  });
+    callback()
+  })
 }
 
-function getAllPackages(callback){
+function getAllPackages (callback) {
   var repositories = []
-    , allPackages  = [];
+    , allPackages  = []
 
   // https://github.com/npm/npm-registry-couchapp/issues/162
   request(NPM_ALL_PACKAGES_URL, function(err, response, body){
@@ -58,18 +58,18 @@ function getAllPackages(callback){
       return callback(err);
     }
 
-    if(!body || !body.rows){
+    if (!body || !body.rows) {
       body = { rows: [] };
     }
 
-    async.mapLimit(body.rows, 10, getPackageData.bind(null, repositories, allPackages), function(err){
+    async.mapLimit(body.rows, 10, getPackageData.bind(null, repositories, allPackages), function (err) {
       if (err) {
         return callback(err);
       }
 
       callback(null, { repositories: repositories, allPackages: allPackages })
     })
-  });
+  })
 }
 
 module.exports = getAllPackages
