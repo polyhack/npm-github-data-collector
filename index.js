@@ -17,6 +17,7 @@ const fs              = require('fs')
     "allPackagesOutput"  : "/path/to/allpackages.json"
   , "repositoriesOutput" : "/path/to/repositories.json"
   , "githubOutput"       : "/path/to/githubusers.json"
+  , "aussieOutput"       : "/path/to/aussieOutput.json"
   , "githubAuthToken"    : "yourgithubauthtoken"
 }
 

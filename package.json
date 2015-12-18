@@ -7,10 +7,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "npm": "~1.2.18",
-    "async": "~0.2.7",
-    "request": "~2.20.0",
-    "function-rate-limit": "0.0.1"
+    "async": "^1.5.0",
+    "function-rate-limit": "0.0.1",
+    "request": "^2.67.0"
   },
   "private": true
 }
